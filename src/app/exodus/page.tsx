@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import LocomotiveScroll, { ScrollToTarget } from 'locomotive-scroll';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Section } from './Section';
 import { ColoredShape } from './ColoredShape';
 
@@ -18,6 +18,14 @@ const scrollToSection = (sectionId: string) => {
 
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+
+  const exoX = useTransform(scrollYProgress, [0, 1], [-275, -550]);
+  const exoduX = useTransform(scrollYProgress, [0, 1], [-250, -2000]);
+  const dusX = useTransform(scrollYProgress, [0, 1], [275, 550]);
+  const odusX = useTransform(scrollYProgress, [0, 1], [250, 2000]);
+
+  const scaleExodus = useTransform(scrollYProgress, [0, 1], [0.9, 2]);
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -52,15 +60,61 @@ export default function Home() {
       ref={scrollRef}
       className='bg-gradient-to-b from-yellow-100 to-orange-900'
     >
-      <Section id='home'>
-        <motion.h1
-          className='text-6xl md:text-8xl font-[500] text-orange-800'
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          EXODUS
-        </motion.h1>
+      <Section id='home' className='relative overflow-hidden h-screen'>
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <motion.h1
+            className='text-6xl md:text-8xl font-[500] z-10 bg-gradient-to-r from-orange-800 to-amber-600 text-transparent bg-clip-text'
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            EXODUS
+          </motion.h1>
+        </div>
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <motion.span
+            className='text-8xl md:text-9xl font-bold text-orange-700 opacity-20'
+            style={{ x: exoX }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.2 }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+          >
+            EXO
+          </motion.span>
+        </div>
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <motion.span
+            className='text-8xl md:text-9xl font-bold text-orange-600 opacity-20'
+            style={{ x: dusX }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.2 }}
+            transition={{ duration: 1.5, delay: 0.4 }}
+          >
+            DUS
+          </motion.span>
+        </div>
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <motion.span
+            className='text-7xl md:text-8xl font-bold text-orange-500 opacity-10'
+            style={{ x: exoduX }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.6 }}
+          >
+            EXODU
+          </motion.span>
+        </div>
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <motion.span
+            className='text-7xl md:text-8xl font-bold text-orange-400 opacity-10'
+            style={{ x: odusX }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{ duration: 1.5, delay: 0.8 }}
+          >
+            ODUS
+          </motion.span>
+        </div>
       </Section>
 
       <Section id='journey'>
